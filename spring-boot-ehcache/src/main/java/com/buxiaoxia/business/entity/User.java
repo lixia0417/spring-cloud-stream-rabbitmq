@@ -1,9 +1,6 @@
 package com.buxiaoxia.business.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created on 2017-02-19 22:04.
@@ -17,7 +14,17 @@ public class User {
 	private String password;
 	private Integer age;
 
+	public User() {
+	}
+
+	public User(String name, String password, Integer age) {
+		this.name = name;
+		this.password = password;
+		this.age = age;
+	}
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	public int getId() {
 		return id;
