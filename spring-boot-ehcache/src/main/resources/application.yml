@@ -3,8 +3,10 @@ server:
 spring:
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: create-drop
   datasource:
-    url: jdbc:mysql://120.27.197.67:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
     username: services_dev
     password: services_dev
     driver-class-name: com.mysql.jdbc.Driver
