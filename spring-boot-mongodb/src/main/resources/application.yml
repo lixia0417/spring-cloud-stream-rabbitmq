@@ -1,0 +1,10 @@
+server:
+  port: 8081
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  data:
+    mongodb:
+      uri: mongodb://jyx365_test:jyx3652017@118.178.16.192/test
