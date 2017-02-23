@@ -6,4 +6,5 @@ spring:
       discovery:
         tags: dev
         hostname: buxiaoxa.top
+        # 服务发现过滤的tag
         default-query-tag: dev
