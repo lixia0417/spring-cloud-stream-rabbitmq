@@ -3,6 +3,7 @@ package com.buxiaoxia.business.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +19,20 @@ public class BigCompany {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+
+	// 维护多对多一方
 	@ManyToMany
 	@JoinTable(name = "rel_country_company",
 			joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false),
 			inverseJoinColumns = @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false))
-	private List<Country> countries;
+	private List<Country> countries = new ArrayList<>();
 
+	public BigCompany() {
+	}
+
+	public BigCompany(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public boolean equals(Object o) {

@@ -20,6 +20,18 @@ public class Province {
 	@JoinColumn(name = "country_id", referencedColumnName = "id")
 	private Country country;
 
+	public Province() {
+	}
+
+	public Province(String name) {
+		this.name = name;
+	}
+
+	public Province(String name, Country country) {
+		this.name = name;
+		this.country = country;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

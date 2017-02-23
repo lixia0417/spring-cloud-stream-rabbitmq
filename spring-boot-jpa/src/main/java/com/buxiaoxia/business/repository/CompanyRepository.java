@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 2017-02-22 18:43
  */
 public interface CompanyRepository extends JpaRepository<BigCompany,Integer> {
+
+	BigCompany findOneByName(String name);
 }

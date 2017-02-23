@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 2017-02-22 18:43
  */
 public interface CountryRepository extends JpaRepository<Country, Integer> {
+
+	Country findOneByName(String name);
 }

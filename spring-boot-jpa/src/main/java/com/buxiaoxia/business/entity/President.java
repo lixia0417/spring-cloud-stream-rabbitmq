@@ -21,6 +21,18 @@ public class President {
 	@JoinColumn(name = "country_id", referencedColumnName = "id")
 	private Country country;
 
+	public President(){
+	}
+
+	public President(String name){
+		this.name = name;
+	}
+
+	public President(String name, Country country) {
+		this.name = name;
+		this.country = country;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
