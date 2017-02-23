@@ -1,0 +1,9 @@
+server:
+  port: 8081
+spring:
+  cloud:
+    consul:
+      discovery:
+        tags: dev
+        hostname: buxiaoxa.top
+        default-query-tag: dev
