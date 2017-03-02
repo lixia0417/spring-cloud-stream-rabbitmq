@@ -3,7 +3,7 @@
 
     <cache name="users"
            maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
+           timeToLiveSeconds="5">
     </cache>
 
 </ehcache>

@@ -33,6 +33,7 @@ public class ApplicationTests {
 
 	@Test
 	public void testFindSameUser(){
+		//ehcache配置5s中超时时间。超过这个时间会重新获取
 		User user = userRepository.findByName("xw1");
 		assertEquals(user.getName(),userRepository.findByName("xw1").getName());
 		assertEquals(user.getName(),userRepository.findByName("xw1").getName());
