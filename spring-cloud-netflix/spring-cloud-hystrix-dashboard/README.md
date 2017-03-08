@@ -7,7 +7,11 @@ https://github.com/kennedyoliveira/standalone-hystrix-dashboard
 
 java -jar -DserverPort=8080 -DbindAddress=localhost standalone-hystrix-dashboard-1.5.6-all.jar
 
-###添加监听
+###打开页面
+
+http://127.0.0.1:8080/hystrix-dashboard/
+
+###添加服务监听
 
 http://127.0.0.1:8081/hystrix.stream
 
