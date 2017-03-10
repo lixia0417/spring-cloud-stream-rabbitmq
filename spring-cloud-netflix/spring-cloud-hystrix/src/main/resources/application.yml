@@ -31,7 +31,7 @@ hystrix:
       requestLog: #日志配置
         enabled: true #是否开启请求日志,默认:true
       requestCache:
-        enabledL: true #是否开启请求缓存,默认:true
+        enabled: true #是否开启请求缓存,默认:true
   collapser:
     default:
       maxRequestsInBatch: Integer.MAX_VALUE #请求合并是允许的最大请求数,默认: Integer.MAX_VALUE
