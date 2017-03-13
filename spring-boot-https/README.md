@@ -12,5 +12,5 @@ keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keyst
 
 ###* 重定向HTTP到HTTPS
 
-配置文件:
+#####配置文件:
 com.buxiaoxia.system.config.WebConfig.class 指定配置
