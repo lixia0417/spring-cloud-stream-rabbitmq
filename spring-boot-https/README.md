@@ -4,11 +4,11 @@
 
 keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
 
-![ketol](http://git.oschina.net/buxiaoxia/spring-demo/blob/master/spring-boot-https/pic/keytool.png)  
+![ketol](http://git.oschina.net/buxiaoxia/spring-demo/raw/master/spring-boot-https/pic/keytool.png)  
 
 ###* Spring Boot启动https支持
 
-![config](http://git.oschina.net/buxiaoxia/spring-demo/blob/master/spring-boot-https/pic/config.png)  
+![config](http://git.oschina.net/buxiaoxia/spring-demo/raw/master/spring-boot-https/pic/config.png)  
 
 ###* 重定向HTTP到HTTPS
 
