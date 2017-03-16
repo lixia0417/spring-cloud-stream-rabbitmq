@@ -1,5 +1,7 @@
 import com.buxiaoxia.Application;
+import com.buxiaoxia.business.entity.Car;
 import com.buxiaoxia.business.entity.User;
+import com.buxiaoxia.business.repository.CarRepository;
 import com.buxiaoxia.business.repository.UserRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -8,6 +10,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -20,6 +27,8 @@ public class ApplicationTests {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private CarRepository carRepository;
 
 
 	@Before
@@ -28,6 +37,11 @@ public class ApplicationTests {
 		userRepository.save(new User("xw2","2",2));
 		userRepository.save(new User("xw3","3",3));
 		userRepository.save(new User("xw4","4",4));
+
+		carRepository.save(new Car("Benz","AX123",123343423,new Date()));
+		carRepository.save(new Car("Benz","SDF13",34633145,new Date()));
+		carRepository.save(new Car("Ferrari","F112",568345345,new Date()));
+		carRepository.save(new Car("Ferrari","F34",546235454,new Date()));
 		System.out.println("=============save=============");
 	}
 
@@ -51,6 +65,29 @@ public class ApplicationTests {
 		assertNull(userRepository.findByName("xw1"));
 		assertNull(userRepository.findByName("xw1"));
 	}
+
+	@Test
+	public void testFindCar(){
+		System.out.println("===testFindCar===");
+		List<Car> cars = carRepository.findByBrand("Benz");
+		assertEquals(2,cars.size());
+		// 不走sql
+		cars = carRepository.findByBrand("Benz");
+		assertEquals(2,cars.size());
+	}
+
+	@Transactional
+	@Test
+	public void testDeleteAndFindCar(){
+		System.out.println("===testDeleteAndFindCar===");
+		List<Car> cars = carRepository.findByBrand("Benz");
+		assertEquals(2,cars.size());
+		carRepository.deleteByBrand("Benz");
+		// 走sql
+		cars = carRepository.findByBrand("Benz");
+		assertEquals(0,cars.size());
+	}
+
 
 	@After
 	public void after(){
