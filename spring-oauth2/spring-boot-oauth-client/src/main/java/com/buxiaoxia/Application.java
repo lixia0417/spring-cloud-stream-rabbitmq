@@ -9,12 +9,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.oauth2.client.token.AccessTokenProviderChain;
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
@@ -27,10 +33,7 @@ import org.springframework.web.filter.CompositeFilter;
 
 import javax.servlet.Filter;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -46,7 +49,7 @@ public class Application extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 
-	@RequestMapping({"/user", "/me"})
+	@RequestMapping({"/user", "/me", "/"})
 	public Map<String, String> user(Principal principal) {
 		Map<String, String> map = new LinkedHashMap<>();
 		map.put("name", principal.getName());
@@ -60,6 +63,7 @@ public class Application extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login**").permitAll().anyRequest().authenticated()
 				.and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login/github"))
 				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+				.and().authorizeRequests().anyRequest().fullyAuthenticated()
 				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 		// @formatter:on
 	}
@@ -88,11 +92,18 @@ public class Application extends WebSecurityConfigurerAdapter {
 		return new ClientResources();
 	}
 
+	@Bean
+	@ConfigurationProperties("my")
+	public ClientResources my() {
+		return new ClientResources();
+	}
+
 	private Filter ssoFilter() {
 		CompositeFilter filter = new CompositeFilter();
 		List<Filter> filters = new ArrayList<>();
 		filters.add(ssoFilter(facebook(), "/login/facebook"));
 		filters.add(ssoFilter(github(), "/login/github"));
+		filters.add(ssoFilter(my(), "/login/my"));
 		filter.setFilters(filters);
 		return filter;
 	}

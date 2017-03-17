@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8082
 security:
   oauth2:
     client:
@@ -28,6 +28,15 @@ github:
     clientAuthenticationScheme: form
   resource:
     userInfoUri: https://api.github.com/user
+my:
+  client:
+    clientId: barClientIdPassword
+    clientSecret: secret
+    accessTokenUri: http://127.0.0.1:8081/oauth/token
+    userAuthorizationUri: http://127.0.0.1:8081/oauth/authorize
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: http://127.0.0.1:8081/user
 
 logging:
   level:
