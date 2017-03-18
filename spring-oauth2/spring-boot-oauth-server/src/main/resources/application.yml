@@ -6,6 +6,9 @@ spring:
     username: services_dev
     password: services_dev
     driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
 logging:
   level:
     org.springframework.security: DEBUG
