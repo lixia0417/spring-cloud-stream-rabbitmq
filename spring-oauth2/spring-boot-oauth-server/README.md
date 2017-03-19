@@ -11,7 +11,7 @@ com.buxiaoxia.system.config.OAuth2AuthorizationServerConfig 上
 
 
 ### 几个默认配置
-* 初始化schema的sql
+* 初始化schema的sql，初始化init.sql
 * 插入oauth_client_details表，初始化几个clientId
 * com.buxiaoxia.system.WebSecurityConfig 类中初始化了两个账户
 
