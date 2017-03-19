@@ -1,5 +1,15 @@
 ## 认证服务器
 
+主要用于提供token，第三方认证服务器主体
+
+### 注解
+
+    @EnableResourceServer
+
+用于启动认证服务器，用在配置文件
+com.buxiaoxia.system.config.OAuth2AuthorizationServerConfig 上
+
+
 ### 几个默认配置
 * 初始化schema的sql
 * 插入oauth_client_details表，初始化几个clientId
@@ -38,3 +48,25 @@
       "scope": "bar read write",
       "organization": "john"
     }
+
+### 结合用户信息存储数据库
+
+* 自定义用户信息User实现UserDetails接口
+* 自定义CustomUserService实现UserDetailsService接口
+* WebSecurityConfigurerAdapter复写globalUserDetails方法指定用户信息读取方式
+
+ 
+### 认证资源服务器
+
+主要用于校验token,以及用户信息的获取
+
+### 注解
+
+    @EnableResourceServer
+
+用于启动认证服务器，用在配置文件
+com.buxiaoxia.system.config.ResourceServerConfiguration 上
+
+### 用户接口实现
+
+查看Application类

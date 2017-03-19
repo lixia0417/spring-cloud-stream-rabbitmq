@@ -3,26 +3,19 @@ package com.buxiaoxia.system.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
-import java.util.concurrent.TimeUnit;
 
 /**
  * AuthorizationServerConfigurer 需要配置三个配置-重写几个方法：
@@ -34,6 +27,7 @@ import java.util.concurrent.TimeUnit;
  * Created by xw on 2017/3/16.
  * 2017-03-16 22:28
  */
+@EnableAuthorizationServer
 @Configuration
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
@@ -42,8 +36,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	// 注入认证管理器
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	@Autowired
-	private Environment env;
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -66,13 +58,13 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 		endpoints.tokenStore(tokenStore());
 		endpoints.tokenEnhancer(tokenEnhancer());
 		// 配置TokenServices参数
-		DefaultTokenServices tokenServices = new DefaultTokenServices();
-		tokenServices.setTokenStore(endpoints.getTokenStore());
-		tokenServices.setSupportRefreshToken(false);
-		tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
-		tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
-		tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30)); // 30天
-		endpoints.tokenServices(tokenServices);
+//		DefaultTokenServices tokenServices = new DefaultTokenServices();
+//		tokenServices.setTokenStore(endpoints.getTokenStore());
+//		tokenServices.setSupportRefreshToken(false);
+//		tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+//		tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+//		tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30)); // 30天
+//		endpoints.tokenServices(tokenServices);
 	}
 
 
@@ -114,7 +106,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	public TokenEnhancer tokenEnhancer() {
 		return new CustomTokenEnhancer();
 	}
-
 
 
 //    @Bean

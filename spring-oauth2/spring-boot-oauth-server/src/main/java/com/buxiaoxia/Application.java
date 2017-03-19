@@ -5,8 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,14 +23,26 @@ import java.util.HashMap;
  */
 @RestController
 @SpringBootApplication
-@EnableAuthorizationServer
 public class Application {
 
-	@RequestMapping(value = "/user",method = RequestMethod.GET)
-	public ResponseEntity getUser(OAuth2Authentication authentication){
-		return new ResponseEntity<>(new HashMap<String,String>(){{
-			put("name",authentication.getName());
-			put("loginName",((User)authentication.getDetails()).getUsername());
+
+	/**
+	 * 定义用户信息
+	 *
+	 * @param authentication
+	 * @return
+	 */
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public ResponseEntity getUser(OAuth2Authentication authentication) {
+		Authentication oauth = authentication.getUserAuthentication();
+		User user = (User) oauth.getPrincipal();
+		return new ResponseEntity<>(new HashMap<String, Object>() {{
+			put("name", user.getName());
+			put("username", user.getUsername());
+//			put("password", user.getPassword());
+			put("id", user.getId());
+			put("createAt", user.getCreateAt());
+			put("auth", user.getAuthorities());
 		}}, HttpStatus.OK);
 	}
 

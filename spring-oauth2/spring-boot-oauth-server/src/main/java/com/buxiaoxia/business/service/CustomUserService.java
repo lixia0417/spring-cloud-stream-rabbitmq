@@ -9,11 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 /**
+ * 自定义用户获取方式
+ * <p>
  * Created by xw on 2017/3/17.
  * 2017-03-17 20:13
  */
-@Component
-public class CustomUserService implements UserDetailsService{
+public class CustomUserService implements UserDetailsService {
 
 
 	@Autowired
@@ -25,8 +26,6 @@ public class CustomUserService implements UserDetailsService{
 		if (user == null) {
 			throw new UsernameNotFoundException("用户名不存在");
 		}
-		System.out.println("s:"+s);
-		System.out.println("username:"+user.getUsername()+";password:"+user.getPassword());
 		return user;
 	}
 }
