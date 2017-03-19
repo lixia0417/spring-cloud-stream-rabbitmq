@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -11,11 +12,15 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.sql.DataSource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * AuthorizationServerConfigurer 需要配置三个配置-重写几个方法：
@@ -56,15 +61,22 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 		endpoints.authenticationManager(authenticationManager);
 		//指定token存储位置
 		endpoints.tokenStore(tokenStore());
-		endpoints.tokenEnhancer(tokenEnhancer());
+
+
+		// 自定义token生成方式
+		endpoints.tokenEnhancer(accessTokenConverter());
+//		endpoints.tokenEnhancer(customerEnhancer());
+
+
 		// 配置TokenServices参数
-//		DefaultTokenServices tokenServices = new DefaultTokenServices();
-//		tokenServices.setTokenStore(endpoints.getTokenStore());
-//		tokenServices.setSupportRefreshToken(false);
-//		tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
-//		tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
-//		tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30)); // 30天
-//		endpoints.tokenServices(tokenServices);
+		DefaultTokenServices tokenServices = (DefaultTokenServices) endpoints.getDefaultAuthorizationServerTokenServices();
+		tokenServices.setTokenStore(endpoints.getTokenStore());
+		tokenServices.setSupportRefreshToken(false);
+		tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+		tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+		tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(1)); // 1天
+		endpoints.tokenServices(tokenServices);
+		super.configure(endpoints);
 	}
 
 
@@ -103,7 +115,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	 * @return
 	 */
 	@Bean
-	public TokenEnhancer tokenEnhancer() {
+	public TokenEnhancer customerEnhancer() {
 		return new CustomTokenEnhancer();
 	}
 
@@ -112,14 +124,17 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 //    public TokenStore tokenStore() {
 //    return new JwtTokenStore(accessTokenConverter());
 //    }
-//
-//    @Bean
-//    public JwtAccessTokenConverter accessTokenConverter() {
-//    final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-//    // converter.setSigningKey("123");
-////    final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
-////    converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
-//    return converter;
-//    }
+
+	@Bean
+	public TokenEnhancer accessTokenConverter() {
+		final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+		converter.setSigningKey("123");
+		converter.setSigner(new MacSigner(new byte[1]));
+
+		// converter.setSigningKey("123");
+//    final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
+//    converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
+		return converter;
+	}
 
 }
