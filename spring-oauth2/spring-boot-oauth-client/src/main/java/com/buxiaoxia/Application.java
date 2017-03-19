@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -49,10 +50,11 @@ public class Application extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 
-	@RequestMapping({"/user", "/me", "/"})
-	public Map<String, String> user(Principal principal) {
-		Map<String, String> map = new LinkedHashMap<>();
-		map.put("name", principal.getName());
+	@RequestMapping({"/user", "/me"})
+	public Map<String, Object> user(OAuth2Authentication auth) {
+		Map<String, Object> map = new LinkedHashMap<>();
+		map.put("name", auth.getName());
+		map.put("id", ((Map) auth.getUserAuthentication().getDetails()).get("id"));
 		return map;
 	}
 
@@ -61,7 +63,7 @@ public class Application extends WebSecurityConfigurerAdapter {
 		// @formatter:off
 		http.antMatcher("/**").authorizeRequests()
 				.antMatchers("/login**").permitAll().anyRequest().authenticated()
-				.and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login/github"))
+				.and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login/my"))
 				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.and().authorizeRequests().anyRequest().fullyAuthenticated()
 				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
