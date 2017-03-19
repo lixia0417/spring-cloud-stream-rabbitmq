@@ -1,5 +1,6 @@
 package com.buxiaoxia.system.config;
 
+import io.jsonwebtoken.impl.Base64UrlCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	// 注入认证管理器
 	@Autowired
 	private AuthenticationManager authenticationManager;
+//	private Base64UrlCodec base64UrlCodec = new Base64UrlCodec();
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -64,8 +66,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
 
 		// 自定义token生成方式
-		endpoints.tokenEnhancer(accessTokenConverter());
-//		endpoints.tokenEnhancer(customerEnhancer());
+//		endpoints.tokenEnhancer(accessTokenConverter());
+		endpoints.tokenEnhancer(customerEnhancer());
 
 
 		// 配置TokenServices参数
@@ -128,8 +130,14 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	@Bean
 	public TokenEnhancer accessTokenConverter() {
 		final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+		// 定义key
 		converter.setSigningKey("123");
 		converter.setSigner(new MacSigner(new byte[1]));
+//
+//		String stringKey = "dev" + "123";
+//		byte[] encodedKey = base64UrlCodec.decode(stringKey);
+//		converter.setSigner(new MacSigner(encodedKey));
+
 
 		// converter.setSigningKey("123");
 //    final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
