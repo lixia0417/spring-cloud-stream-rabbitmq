@@ -14,9 +14,9 @@ import java.util.Map;
  * 默认使用DefaultAccessTokenConverter 这个装换器
  * DefaultAccessTokenConverter有个UserAuthenticationConverter，这个转换器作用是把用户的信息放入token中，
  * 默认只是放入username
- *
+ * <p>
  * 自定义了下这个方法，加入了额外的信息
- *
+ * <p>
  * Created by xw on 2017/3/20.
  * 2017-03-20 9:54
  */
