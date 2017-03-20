@@ -59,6 +59,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 			throw new RuntimeException(e);
 		}
 		converter.setVerifierKey(publicKey);
+		converter.setAccessTokenConverter(new CustomerAccessTokenConverter());
 		return converter;
 	}
 

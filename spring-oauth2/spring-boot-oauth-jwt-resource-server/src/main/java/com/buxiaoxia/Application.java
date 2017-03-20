@@ -24,8 +24,11 @@ public class Application {
 	@RequestMapping(value = "/auth", method = RequestMethod.GET)
 	public ResponseEntity authDemo(OAuth2Authentication auth) {
 		// 获取当前用户资源
+		Map user = (Map) auth.getPrincipal();
 		return new ResponseEntity<>(new HashMap<String, Object>() {{
-			put("username", auth.getPrincipal());
+			put("username", user.get("user_name"));
+			put("name", user.get("name"));
+			put("createAt", user.get("createAt"));
 			put("auth", "OK");
 		}}, HttpStatus.OK);
 	}
