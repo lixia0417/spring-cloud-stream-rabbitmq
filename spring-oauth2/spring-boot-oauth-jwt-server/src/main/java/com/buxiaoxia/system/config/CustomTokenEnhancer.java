@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  *
- * 自定义token生成方式
+ * token生成携带的信息
  *
  */
 public class CustomTokenEnhancer implements TokenEnhancer {
@@ -24,7 +24,6 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 		additionalInfo.put("name", user.getName());
 		additionalInfo.put("username", user.getUsername());
 		additionalInfo.put("authorities", user.getAuthorities());
-		additionalInfo.put("createAt", user.getCreateAt());
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 		return accessToken;
 	}
