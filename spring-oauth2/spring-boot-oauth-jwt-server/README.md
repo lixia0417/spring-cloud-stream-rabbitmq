@@ -95,7 +95,7 @@ JwtAccessTokenConverter中默认使用DefaultAccessTokenConverter来处理token�
 
         keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore mytest.jks -storepass mypass
 
-![jks](http://git.oschina.net/buxiaoxia/spring-demo/raw/master/spring-oauth2/spring-boot-auth-jwt-server/pic/JKS.png)  
+![jks](http://git.oschina.net/buxiaoxia/spring-demo/raw/master/spring-oauth2/spring-boot-oauth-jwt-server/pic/JKS.png)  
 
 具体参数的意思不另说明。
 
@@ -103,7 +103,7 @@ JwtAccessTokenConverter中默认使用DefaultAccessTokenConverter来处理token�
 
         keytool -list -rfc --keystore mytest.jks | openssl x509 -inform pem -pubkey
 
-![publicKey](http://git.oschina.net/buxiaoxia/spring-demo/raw/master/spring-oauth2/spring-boot-auth-jwt-server/pic/publicKey.png)  
+![publicKey](http://git.oschina.net/buxiaoxia/spring-demo/raw/master/spring-oauth2/spring-boot-oauth-jwt-server/pic/publicKey.jpg)  
 
 3. 生成公钥文本
 
