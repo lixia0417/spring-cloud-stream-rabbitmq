@@ -143,6 +143,8 @@ JwtAccessTokenConverter中默认使用DefaultAccessTokenConverter来处理token�
 
 ### 资源服务2-非对称加密方式（公钥）
 
+把对应的public.txt公钥引入到resource目录下
+
         @Bean
         public JwtAccessTokenConverter accessTokenConverter() {
         	JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
@@ -157,3 +159,5 @@ JwtAccessTokenConverter中默认使用DefaultAccessTokenConverter来处理token�
         	converter.setAccessTokenConverter(new CustomerAccessTokenConverter());
         	return converter;
         }
+
+文档支持：http://www.baeldung.com/spring-security-oauth-jwt
