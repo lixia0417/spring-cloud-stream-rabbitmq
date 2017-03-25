@@ -1,7 +1,8 @@
 package com.buxiaoxia.business;
 
-import com.buxiaoxia.annotation.EnableCustomAnnotation;
-import com.buxiaoxia.bean.Demo;
+import com.buxiaoxia.business.aopDemo.service.HelloService;
+import com.buxiaoxia.enableDemo.annotation.EnableCustomAnnotation;
+import com.buxiaoxia.enableDemo.bean.Demo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,15 +29,29 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	private Demo demo;
 
+	@Autowired
+	private HelloService helloService;
+
 	@Override
 	public void run(String... strings) throws Exception {
+		log.info("===============样例一使用样例测试开始===================");
 		log.info("扫描的包范围是：com.buxiaoxia.business.*");
 		log.info("获取应用没有扫描到的配置注入的bean实例，内容为：{}", demo.getHello());
 		log.info("-----------");
 		log.info("-----------");
 		log.error("如果去除@EnableCustomAnnotation配置，服务会报错，提示：Field demo in " +
 				"com.buxiaoxia.business.Application required a bean of type " +
-				"'com.buxiaoxia.bean.Demo' that could not be found.");
+				"'com.buxiaoxia.enableDemo.bean.Demo' that could not be found.");
+		log.info("===============样例一使用样例测试结束===================");
+		log.info("");
+		log.info("");
+		log.info("");
+		log.info("===============样例二使用样例测试开始===================");
+		helloService.getUser("海贼王");
+		log.info("===============样例二使用样例测试结束===================");
 		System.exit(1);
 	}
+
 }
+
+

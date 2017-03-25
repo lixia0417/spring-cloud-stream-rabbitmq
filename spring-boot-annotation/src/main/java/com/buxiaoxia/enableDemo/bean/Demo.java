@@ -1,4 +1,4 @@
-package com.buxiaoxia.bean;
+package com.buxiaoxia.enableDemo.bean;
 
 /**
  * Created by xw on 2017/3/24.

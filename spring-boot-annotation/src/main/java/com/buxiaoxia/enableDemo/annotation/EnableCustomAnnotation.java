@@ -1,6 +1,6 @@
-package com.buxiaoxia.annotation;
+package com.buxiaoxia.enableDemo.annotation;
 
-import com.buxiaoxia.config.CustomAnnotation;
+import com.buxiaoxia.enableDemo.config.CustomAnnotation;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

@@ -1,6 +1,6 @@
-package com.buxiaoxia.config;
+package com.buxiaoxia.enableDemo.config;
 
-import com.buxiaoxia.bean.Demo;
+import com.buxiaoxia.enableDemo.bean.Demo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
