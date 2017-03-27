@@ -37,9 +37,4 @@ public class RedisTopicListener {
 		return new Receiver();
 	}
 
-
-	@Bean
-	public StringRedisTemplate template(RedisConnectionFactory connectionFactory) {
-		return new StringRedisTemplate(connectionFactory);
-	}
 }
