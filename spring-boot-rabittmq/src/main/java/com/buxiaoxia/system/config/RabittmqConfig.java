@@ -1,6 +1,9 @@
 package com.buxiaoxia.system.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
@@ -130,23 +133,24 @@ public class RabittmqConfig {
 	 *
 	 * @return
 	 */
-	@Bean
-	public SimpleMessageListenerContainer messageContainer2() {
-		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());
-		container.setQueues(queue1());
-		container.setExposeListenerChannel(true);
-		container.setMaxConcurrentConsumers(1);
-		container.setConcurrentConsumers(1);
-		container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
-		container.setMessageListener(new ChannelAwareMessageListener() {
+//	@Bean
+//	public SimpleMessageListenerContainer messageContainer2() {
+//		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());
+//		container.setQueues(queue1());
+//		container.setExposeListenerChannel(true);
+//		container.setMaxConcurrentConsumers(1);
+//		container.setConcurrentConsumers(1);
+//		container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
+//		container.setMessageListener(new ChannelAwareMessageListener() {
+//
+//			public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
+//				byte[] body = message.getBody();
+//				System.out.println("queue1 收到消息 : " + new String(body));
+//				channel.basicAck(message.getMessageProperties().getDeliveryTag(), false); //确认消息成功消费
+//			}
+//
+//		});
+//		return container;
+//	}
 
-			public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
-				byte[] body = message.getBody();
-				System.out.println("queue1 收到消息 : " + new String(body));
-				channel.basicAck(message.getMessageProperties().getDeliveryTag(), false); //确认消息成功消费
-			}
-
-		});
-		return container;
-	}
 }
