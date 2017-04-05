@@ -31,7 +31,7 @@ public class SwaggerConfig {
 		return new ApiInfoBuilder()
 				.title("Spring boot Swagger2 Demo")
 				.description("这里是个简单描述")
-				.termsOfServiceUrl("http://blog.didispace.com/")
+				.termsOfServiceUrl("http://www.baidu.com/")
 				.version("1.0")
 				.build();
 	}
