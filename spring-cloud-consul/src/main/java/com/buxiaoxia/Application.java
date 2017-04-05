@@ -1,8 +1,6 @@
 package com.buxiaoxia;
 
-import com.buxiaoxia.system.ConsulConfig;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @ConfigurationProperties("test")
 @EnableDiscoveryClient
 @SpringBootApplication
-public class Application implements CommandLineRunner{
+public class Application implements CommandLineRunner {
 
 	private String conf1;
 
@@ -32,8 +30,12 @@ public class Application implements CommandLineRunner{
 
 	@Override
 	public void run(String... strings) throws Exception {
+		System.out.println("如果spring.cloud.consul.config.format是YAML方式，那么下面的值为null");
 		System.out.println("从[config/application/test]获取conf1配置值：" + this.getConf1());
 		System.out.println("从[config/application/test]获取conf2配置值：" + this.getConf2());
 		System.out.println("从[config/application/test]获取conf2配置值：" + this.getConf3());
+		System.out.println("=========================================");
+		System.out.println("如果spring.cloud.consul.config.format是YAML方式，" +
+				"需要在consul上指定数据库的配置，配置内容同spring-boot-jpa一致");
 	}
 }
