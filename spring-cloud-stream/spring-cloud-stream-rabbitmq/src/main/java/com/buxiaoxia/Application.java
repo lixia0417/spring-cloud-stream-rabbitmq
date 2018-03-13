@@ -30,16 +30,16 @@ import java.util.Date;
 @EnableBinding({Processor.class, OrderProcessor.class, ProductProcessor.class})
 public class Application implements CommandLineRunner {
 
-    @Autowired
-    @Qualifier("output")
-    MessageChannel output;
+//    @Autowired
+//    @Qualifier("output")
+//    MessageChannel output;
 
     @Autowired
     @Qualifier("outputOrder")
     MessageChannel outputOrder;
 
-    @Autowired
-    ProductProcessor productProcessor;
+//    @Autowired
+//    ProductProcessor productProcessor;
 
 
     public static void main(String[] args) {
@@ -48,7 +48,7 @@ public class Application implements CommandLineRunner {
 
 
     // 监听 binding 为 Processor.INPUT 的消息
-    @StreamListener(Processor.INPUT)
+//    @StreamListener(Processor.INPUT)
     public void input(Message<String> message) {
         System.out.println("一般监听收到：" + message.getPayload());
     }
@@ -60,11 +60,12 @@ public class Application implements CommandLineRunner {
         System.out.println("订单编号：" + order.getOrderNum());
         System.out.println("订单类型：" + order.getType());
         System.out.println("订单数量：" + order.getNum());
+//        System.out.println(1/0);
         System.out.println("=====订单处理完成=====");
     }
 
 
-    @StreamListener(ProductProcessor.INPUT_PRODUCT_ADD)
+//    @StreamListener(ProductProcessor.INPUT_PRODUCT_ADD)
     public void inputProductAdd(Message<String> message) {
         System.out.println("新增产品监听收到：" + message.getPayload());
     }
@@ -72,13 +73,13 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        // 字符串类型发送MQ
-        System.out.println("字符串信息发送");
-        output.send(MessageBuilder.withPayload("大家好").build());
+//        // 字符串类型发送MQ
+//        System.out.println("字符串信息发送");
+//        output.send(MessageBuilder.withPayload("大家好").build());
 
-        // 使用 定义的接口的方式来发送
-        System.out.println("新增产品发送");
-        productProcessor.outputProductAdd().send(MessageBuilder.withPayload("添加一个产品").build());
+//        // 使用 定义的接口的方式来发送
+//        System.out.println("新增产品发送");
+//        productProcessor.outputProductAdd().send(MessageBuilder.withPayload("添加一个产品").build());
 
         // 实体类型发送MQ
         System.out.println("订单实体发送");
@@ -93,11 +94,11 @@ public class Application implements CommandLineRunner {
 
 
     // 定时轮询发送消息到 binding 为 Processor.OUTPUT
-    @Bean
-    @InboundChannelAdapter(value = Processor.OUTPUT, poller = @Poller(fixedDelay = "3000", maxMessagesPerPoll = "1"))
-    public MessageSource<String> timerMessageSource() {
-        return () -> MessageBuilder.withPayload("短消息-" + new Date()).build();
-    }
+//    @Bean
+//    @InboundChannelAdapter(value = Processor.OUTPUT, poller = @Poller(fixedDelay = "3000", maxMessagesPerPoll = "1"))
+//    public MessageSource<String> timerMessageSource() {
+//        return () -> MessageBuilder.withPayload("短消息-" + new Date()).build();
+//    }
 
 
 }
@@ -138,4 +139,36 @@ class Order {
     private int num;
 
     private Date createAt;
+
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
 }
